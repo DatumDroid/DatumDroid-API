@@ -10,8 +10,6 @@
  * @subpackage Config
  */
 
-// Exit if accessed directly
-if ( !defined( 'DD_DIR' ) ) exit;
 /**
  * API Keys
  */
