@@ -165,36 +165,7 @@ class DD_Service_Google_Images extends DD_Search_Service {
 
 		return $retVal;
 	}
-/*
-	function search_experimental( $q = '' ) {
-			// Experiment, using proper Image Search API (deprecated)
-		$url = 'https://ajax.googleapis.com/ajax/services/search/images?' .
-			'v=1.0&rsz=' . $this->rpp . '&start=' . ( ( $this->page - 1 ) * $this->rpp ) . '&q=' . urlencode( $this->query ) .
-			'&key=ABQIAAAA7i8VREJm95A3rNCTcsJ_HRRTas3dTMXzvBUD6QdogPM6FjaUFBT6HcPyCXCEZ2IjQxC28535ge3rwg&userip=' . $_SERVER['REMOTE_ADDR'];
 
-		// sendRequest
-		// note how referer is set manually
-		$ch = curl_init();
-		curl_setopt( $ch, CURLOPT_URL, $url );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt( $ch, CURLOPT_REFERER, 'api.datumdroid.com' );
-		$body = curl_exec( $ch );
-		curl_close( $ch );
-
-		// now, process the JSON string
-		$body = json_decode( $body );
-		$body = $body->responseData->results;
-		foreach ( $body as &$bod ) {
-			$bod->title   = $bod->titleNoFormatting;
-			$bod->content = $bod->contentNoFormatting;
-
-			unset( $bod->titleNoFormatting );
-			unset( $bod->contentNoFormatting );
-		}
-
-		return $body;
-	}
-*/
 }
 
 ?>

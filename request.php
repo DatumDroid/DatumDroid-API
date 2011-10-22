@@ -10,7 +10,6 @@
  *
  * @todo Refine search query
  * @todo Refine results
- * @todo Simpler YouTube
  */
 
 /**
@@ -22,10 +21,15 @@
  *  3. Done
  */
 
+// Include custom configuration
+if ( file_exists( 'dd-config.php' ) )
+	require_once( 'dd-config.php' );
+
 /** Debug *********************************************************************/
 
 // Debug
-define( 'DD_DEBUG', isset( $_REQUEST['debug'] ) ? true : false );
+if ( !defined( 'DD_DEBUG' ) )
+	define( 'DD_DEBUG', isset( $_REQUEST['debug'] ) ? true : false );
 
 // Report all errors if debugging, else none
 error_reporting( E_ALL );
@@ -37,26 +41,32 @@ ini_set( 'display_errors', true == DD_DEBUG ? 1 : 0 );
 /* Directories */
 
 // Root Path
-define( 'DD_DIR',          dirname( __FILE__ )        . '/' );
+if ( !defined( 'DD_DIR'        ) )
+	define( 'DD_DIR',          dirname( __FILE__ )        . '/' );
 
 // Includes Directory
-define( 'DD_DIR_INC',      DD_DIR     . 'dd-includes' . '/' );
+if ( !defined( 'DD_DIR_INC'    ) )
+	define( 'DD_DIR_INC',      DD_DIR     . 'dd-includes' . '/' );
 
 /* Misc */
 
 // Version
-define( 'DD_VER',        '1.0'                                             );
+if ( !defined( 'DD_VER'        ) )
+	define( 'DD_VER',        '1.0'                                             );
 
 // Name
-define( 'DD_NAME',       'DatumDroid'                                      );
+if ( !defined( 'DD_NAME'       ) )
+	define( 'DD_NAME',       'DatumDroid'                                      );
 
 // User Agent
-define( 'DD_USER_AGENT', DD_NAME . 'API/' . DD_VER . ':api@datumdroid.com' );
+if ( !defined( 'DD_USER_AGENT' ) )
+	define( 'DD_USER_AGENT', DD_NAME . 'API/' . DD_VER . ':api@datumdroid.com' );
 
 /* URIs */
 
 // Url Path to this API
-define( 'DD_URI', 'http://api.datumdroid.com/' . DD_VER . '/' );
+if ( !defined( 'DD_URI'        ) )
+	define( 'DD_URI', 'http://api.datumdroid.com/' . DD_VER . '/' );
 
 /** Actions *******************************************************************/
 
@@ -78,6 +88,10 @@ $dd_lang = !empty( $_REQUEST['lang'] ) ? $_REQUEST['lang'] : 'en';
 
 // Results array, which would be outputted as json encoded later
 $results = array();
+
+// API Keys
+if ( !isset( $dd_api_keys ) )
+	$dd_api_keys = array();
 
 /** Include required files ****************************************************/
 

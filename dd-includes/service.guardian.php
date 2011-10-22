@@ -24,7 +24,20 @@ class DD_Service_Guardian extends DD_Search_Service {
 	 * API Key for the service
 	 * @var string
 	 */
-	var $api_key = 'cufazf7k84v6a2cazkujwcpc';
+	var $api_key = '';
+
+	/**
+	 * Construct the class
+	 *
+	 * Also set the api key
+	 *
+	 * @param mixed $args Request arguments
+	 */
+	function DD_Service_Guardian( $args = array() ) {
+		parent::DD_Search_Service( $args );
+
+		$this->api_key = dd_get_api_key( 'guardian' );
+	}
 
 	/**
 	 * Build and perform the query, return the results.

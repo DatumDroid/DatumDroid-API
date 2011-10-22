@@ -58,6 +58,22 @@ function dd_get_lang() {
 	return $dd_lang;
 }
 
+/**
+ * Returns the api key for the requested service
+ *
+ * @param string $service The service requested. If empty, the all are returned
+ * @global string $dd_api_keys API Keys
+ * @return array|string API Key(s) (for the requested service)
+ */
+function dd_get_api_key( $service = '' ) {
+	global $dd_api_keys;
+
+	if ( empty( $service ) )
+		return $dd_api_keys;
+
+	return !empty( $dd_api_keys[$service] ) ? $dd_api_keys[$service] : '';
+}
+
 /** Loaders *******************************************************************/
 
 function dd_load_service( $service = '' ) {
