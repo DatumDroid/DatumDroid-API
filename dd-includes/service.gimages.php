@@ -36,6 +36,12 @@ class DD_Service_Google_Images extends DD_Search_Service {
 	var $image_type = '';
 
 	/**
+	 * The maximum number of results that this service can return
+	 * @var int
+	 */
+	var $max = '21';
+
+	/**
 	 * Construct the class
 	 *
 	 * Also unset the user agent set by the parent class

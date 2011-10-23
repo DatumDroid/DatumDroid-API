@@ -19,9 +19,6 @@ class DD_Search {
 
 		$gi = new DD_Service_Google_Images();
 
-		//if ( true == DD_DEBUG )
-		//	return $gi->search_experimental();
-
 		return $gi->results();
 	}
 

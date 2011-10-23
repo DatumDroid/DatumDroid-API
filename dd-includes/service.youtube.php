@@ -24,6 +24,12 @@ class DD_Service_YouTube extends DD_Search_Service {
 	var $api_ver = 2;
 
 	/**
+	 * The maximum number of results that this service can return
+	 * @var int
+	 */
+	var $max = '50';
+
+	/**
 	 * Build and perform the query, return the results.
 	 * @param $reset_query boolean optional.
 	 * @return object

@@ -28,7 +28,8 @@ And JSON encoded results would be returned.
  * `page` -- Page number to be requested. Default 1.
  * `<service>` -- The service to fetch results from, plain names (check filenames in `dd-includes`). 1 or do not set.
  * `all` -- Whether to fetch results from all available services. 1 or do not set.
- * `debug` -- Whether to `print_r` results instead of `json_encode` and whether to display errors or not
+ * `debug` -- Whether to `print_r` results instead of `json_encode` and whether to display errors or not. You may want to install a JSON viewing browser extension instead of using debug for the first reason.
+ * `supported_services` - Returns a JSON encoded (or `print_r`-ed array if `debug` is on) associative array of the supported services with keys being the plain names and values being the underscored names of the services.
 
 ### Services ###
 
@@ -52,6 +53,9 @@ Contributing
 
 ### To add a service ###
 
- 1. Add `service.[name].php` in `dd-includes` like `service.twitter.php` having a class extending `DD_Search_Service` (copy from another service) and make necessary changes in the file.
- 2. Add `DD_Search->[name]()` in `dd-includes/search.php` like `DD_Search->twitter()` (copy from another function)
+ 1. Add `service.[name].php` in `dd-includes` like `service.twitter.php` having a class extending `DD_Search_Service` (copy from another service class file) and make necessary changes in the file.
+ 2. Add `[name]` => `[class_name]` in `$dd_services` array in `dd_config.php`
  3. Done, enjoy :)
+
+### Notes ###
+ * This project follows [WordPress Coding Standards](http://codex.wordpress.org/WordPress_Coding_Standards).

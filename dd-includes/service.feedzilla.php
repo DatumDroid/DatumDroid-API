@@ -20,6 +20,12 @@ class DD_Service_Feedzilla extends DD_Search_Service {
 	var $api_ver = 1;
 
 	/**
+	 * The maximum number of results that this service can return
+	 * @var int
+	 */
+	var $max = '100';
+
+	/**
 	 * Build and perform the query, return the results.
 	 * @param $reset_query boolean optional.
 	 * @return object
@@ -30,7 +36,8 @@ class DD_Service_Feedzilla extends DD_Search_Service {
 		$request .= '&order=date&title_only=1';
 
 		if ( isset( $this->rpp ) ) {
-			$request .= '&count=' . $this->rpp;
+			// @todo Feedzilla bug, displays 1 result less than the requested
+			$request .= '&count=' . ( $this->rpp + 1 );
 		}
 
 		if ( isset( $this->page ) ) {

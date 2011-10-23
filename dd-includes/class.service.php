@@ -45,10 +45,16 @@ class DD_Search_Service {
 	var $lang;
 
 	/**
-	 * The number of tweets to return per page, max 100
+	 * The number of results to return per page
 	 * @var int
 	 */
 	var $rpp;
+
+	/**
+	 * The maximum number of results that this service can return
+	 * @var int
+	 */
+	var $max = '10';
 
 	/**
 	 * The page number to return, up to a max of roughly 1500 results
@@ -79,15 +85,15 @@ class DD_Search_Service {
 	 */
 	function DD_Search_Service( $args = array() ) {
 		$defaults = array(
-			'rpp'   => dd_get_per_page(),
-			'page'  => dd_get_page    (),
-			'lang'  => dd_get_lang    (),
-			'query' => dd_get_query   ()
+			'page'     => dd_get_page    (),
+			'lang'     => dd_get_lang    (),
+			'query'    => dd_get_query   (),
+			'per_page' => dd_get_per_page()
 		);
 		$r = dd_parse_args( $args, $defaults );
 		extract ( $r );
 
-		$this->rpp        = $rpp;
+		$this->rpp        = $per_page;
 		$this->page       = $page;
 		$this->lang       = $lang;
 		$this->query      = $query;
@@ -153,6 +159,26 @@ class DD_Search_Service {
 	}
 
 	/**
+	 * Get the required number of results
+	 * @param string $url Required. API URL to request
+	 * @param string $postargs Optional. Urlencoded query string to append to the $url
+	 */
+	function search( $reset_query = false ) {
+		// For the first page
+		$results = $this->results( $reset_query );
+
+		// No results
+		if ( empty( $results ) )
+			return array( "no results found" );
+
+		// No more results or no more requested
+		//if ( count( $results ) <= min( $this->max, $this->rpp ) )
+		//	return $results;
+
+		return $results;
+	}
+
+	/**
 	 * Internal function where all the juicy curl fun takes place
 	 * this should not be called by anything external unless you are
 	 * doing something else completely then knock youself out.
@@ -175,7 +201,7 @@ class DD_Search_Service {
 		//curl_setopt( $ch, CURLOPT_HTTPHEADER, $this->headers );
 
 		//if ( $this->user_agent != false )
-			//curl_setopt( $ch, CURLOPT_USERAGENT, $this->user_agent );
+		//	curl_setopt( $ch, CURLOPT_USERAGENT, $this->user_agent );
 
 		$response = curl_exec( $ch );
 
@@ -216,6 +242,19 @@ class DD_Search_Service {
 			return false;
 	}
 
+	/**
+	 * A function meant to be overriden
+	 *
+	 * @param bool $reset_query Reset the query?
+	 * @return array Empty array
+	 */
+	function results( $reset_query = true ) {
+		if ( $reset_query ) {
+			$this->query = '';
+		}
+
+		return array();
+	}
 }
 
 ?>

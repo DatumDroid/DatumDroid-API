@@ -21,6 +21,12 @@ class DD_Service_Twitter extends DD_Search_Service {
 	var $show_user = false;
 
 	/**
+	 * The maximum number of results that this service can return
+	 * @var int
+	 */
+	var $max = '100';
+
+	/**
 	 * Find tweets from a user
 	 * @param string $user required
 	 * @return object

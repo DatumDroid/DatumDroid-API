@@ -13,6 +13,22 @@
 /**
  * API Keys
  */
-$dd_api_keys = array( 'guardian' => '' );
+$dd_api_keys = array(
+	'guardian' => ''
+);
+
+/**
+ * Supported services
+ */
+$dd_services = array(
+	// Plain name => Class name
+	'feedzilla' => 'Feedzilla',
+	'gimages'   => 'Google_Images',
+	'gstocks'   => 'Google_Stocks',
+	'gweather'  => 'Google_Weather',
+	'guardian'  => 'Guardian',
+	'twitter'   => 'Twitter',
+	'youtube'   => 'YouTube'
+);
 
 ?>

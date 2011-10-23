@@ -20,6 +20,12 @@ class DD_Service_Google_Weather extends DD_Search_Service {
 	var $type = 'xml';
 
 	/**
+	 * The maximum number of results that this service can return
+	 * @var int
+	 */
+	var $max = '1';
+
+	/**
 	 * Function to prepare data for return to client
 	 * @access private
 	 * @param string $data

@@ -27,6 +27,12 @@ class DD_Service_Guardian extends DD_Search_Service {
 	var $api_key = '';
 
 	/**
+	 * The maximum number of results that this service can return
+	 * @var int
+	 */
+	var $max = '50';
+
+	/**
 	 * Construct the class
 	 *
 	 * Also set the api key
