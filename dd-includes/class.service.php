@@ -159,23 +159,55 @@ class DD_Search_Service {
 	}
 
 	/**
+	 * Paging debug function
+	 *
+	 * @return int
+	 */
+	function _results() {
+		$this->max = 5;
+
+		$arr = array( 1, 2, 3, 4, 5, 6 );
+
+		array_splice( $arr, 0, ( $this->page - 1 ) * $this->rpp );
+
+		return $arr;
+	}
+
+	/**
 	 * Get the required number of results
-	 * @param string $url Required. API URL to request
-	 * @param string $postargs Optional. Urlencoded query string to append to the $url
+	 *
+	 * @param bool $reset_query Reset query?
+	 * @return array Array of results
 	 */
 	function search( $reset_query = false ) {
-		// For the first page
-		$results = $this->results( $reset_query );
+		$to_fetch = $this->page * $this->rpp;
+		$results  = array();
 
-		// No results
-		if ( empty( $results ) )
-			return array( "no results found" );
+		do {
+			$new_results = (array) $this->results( $reset_query );
 
-		// No more results or no more requested
-		//if ( count( $results ) <= min( $this->max, $this->rpp ) )
-		//	return $results;
+			// No new results
+			if ( empty( $new_results ) )
+				break;
 
-		return $results;
+			// Append the results
+			$results = array_merge( $results, $new_results );
+
+			// No more results after this present
+			if ( count( $new_results ) < $this->max )
+				break;
+
+			// Increment page
+			$this->page++;
+		} while ( $to_fetch > count( $results ) );
+
+		// Filter, slice and return
+		$results = array_filter( (array) $results );
+
+		if ( $to_fetch < count( $results ) )
+			$results = array_slice( $results, 0, $to_fetch );
+
+		return empty( $results ) ? array( "no results found" ) : $results;
 	}
 
 	/**

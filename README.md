@@ -11,7 +11,7 @@ An online version of this API exists on http://api.datumdroid.com/
 Installation
 ------------
 
-Just put the files in a directory on an Apache server with PHP5.2+ (requires JSON).
+Just put the files in a directory on an Apache server with PHP5.2+ (requires JSON and SimpleXML).
 Check `dd-config-sample.php` and `request.php` for possible configurations.
 Must edits: `DD_URI` and `$dd_api_keys`.
 

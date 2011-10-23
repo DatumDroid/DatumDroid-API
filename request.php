@@ -104,6 +104,9 @@ if ( ! isset( $dd_services ) )
 if ( ! isset( $dd_api_keys ) )
 	$dd_api_keys = array();
 
+// Current service
+$dd_current_service = '';
+
 // Results array, which would be outputted as json encoded later
 $dd_results = array();
 
@@ -122,7 +125,7 @@ if ( empty( $dd_services ) )
 	dd_output( array( 'responseDetails' => "no services found", 'responseStatus' => 400 ) );
 
 // Are we just returning supported services?
-if ( !empty( $_REQUEST['supported_services'] ) )
+if ( ! empty( $_REQUEST['supported_services'] ) )
 	dd_output( $dd_services );
 
 // Check for search keywords
@@ -134,13 +137,14 @@ if ( ! dd_get_query() )
 foreach ( (array) $dd_services as $service => $service_name ) {
 	if ( ( !empty( $_REQUEST['all'] ) && $_REQUEST['all'] == 1 ) || isset( $_REQUEST[$service] ) ) {
 		// Require the search results fetcher file
-		dd_load_service( $service );
+		dd_set_service ( $service         );
+		dd_load_service( dd_get_service() );
 
 		$service_class = 'DD_Service_' . $service_name;
 
-		$search = new $service_class( ( empty( $_REQUEST[$service] ) || ( $_REQUEST[$service] == 1 && isset( $_REQUEST['per_page'] ) ) ) ? array() : array( 'per_page' => $_REQUEST[$service] ) );
+		$search = new $service_class();
 
-		$dd_results[$service] = $search->search();
+		$dd_results[dd_get_service()] = $search->search();
 	}
 }
 

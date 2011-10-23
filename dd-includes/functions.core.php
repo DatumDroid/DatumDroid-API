@@ -25,13 +25,14 @@ function dd_get_query() {
 /**
  * Returns the per page option
  *
+ * @param string $service The service requested. If empty, the all are returned
  * @global int $dd_per_page Per page option
  * @return int Per page Option
  */
-function dd_get_per_page() {
+function dd_get_per_page( $service = '' ) {
 	global $dd_per_page;
 
-	return $dd_per_page;
+	return ( empty( $_REQUEST[$service] ) || ( $_REQUEST[$service] == 1 && isset( $dd_per_page ) ) ) ? $dd_per_page : $_REQUEST[$service];
 }
 
 /**
@@ -74,10 +75,58 @@ function dd_get_api_key( $service = '' ) {
 	return !empty( $dd_api_keys[$service] ) ? $dd_api_keys[$service] : '';
 }
 
-/** Loaders *******************************************************************/
+/** Loaders & setters *********************************************************/
 
+/**
+ * Gets the current service
+ *
+ * @param string $service Service name
+ * @global string $dd_current_service Current service
+ * @return string Current service
+ */
+function dd_get_service( $service = '' ) {
+	global $dd_current_service, $dd_services;
+
+	if ( array_key_exists( $service, $dd_services ) )
+		return $service;
+	else
+		return $dd_current_service;
+}
+
+/**
+ * Set the current service global to the sent parameter
+ *
+ * @param string $service Service name
+ * @global string $dd_current_service Current service
+ * @global array $dd_services Registered services
+ */
+function dd_set_service( $service = '' ) {
+	global $dd_current_service, $dd_services;
+
+	if ( array_key_exists( $service, $dd_services ) )
+		$dd_current_service = $service;
+	else
+		dd_reset_service();
+}
+
+/**
+ * Reset the current service global to empty string
+ *
+ * @global string $dd_current_service Current service
+ */
+function dd_reset_service() {
+	global $dd_current_service;
+
+	$dd_current_service = '';
+}
+
+/**
+ * Load the class file for a service
+ *
+ * @param string $service Service name
+ */
 function dd_load_service( $service = '' ) {
-	require_once( DD_DIR_INC . 'service.' .  $service . '.php' );
+	require_once( DD_DIR_INC . 'service.' .  dd_get_service( $service ) . '.php' );
 }
 
 /** Formatting/misc ***********************************************************/

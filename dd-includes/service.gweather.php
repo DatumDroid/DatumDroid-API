@@ -21,9 +21,12 @@ class DD_Service_Google_Weather extends DD_Search_Service {
 
 	/**
 	 * The maximum number of results that this service can return
+	 *
+	 * 2 for this service so that it fails the received results >= max results => more results|next page test
+	 *
 	 * @var int
 	 */
-	var $max = '1';
+	var $max = '2';
 
 	/**
 	 * Function to prepare data for return to client
@@ -31,7 +34,12 @@ class DD_Service_Google_Weather extends DD_Search_Service {
 	 * @param string $data
 	 */
 	function objectify( $data ) {
-		$obj = simplexml_load_string( $data )->weather->current_conditions;
+		$obj = simplexml_load_string( $data );
+
+		if ( ! $obj )
+			return array();
+		else
+			$obj = $obj->weather->current_conditions;
 
 		$conditions = array();
 
@@ -42,7 +50,7 @@ class DD_Service_Google_Weather extends DD_Search_Service {
 			$conditions[$condition] = 'icon' == $condition ? 'http://google.com' . $conditions[$condition] : $conditions[$condition];
 		}
 
-		return (object) $conditions;
+		return array( (object) $conditions );
 	}
 
 	/**
