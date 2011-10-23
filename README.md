@@ -2,7 +2,7 @@ DatumDroid API
 ==============
 
 DatumDroid API is basically an API written to support the [DatumDroid](http://datumdroid.com/) application.
-It returns back JSON encoded results for various services like Feedzilla, Google Images, Google Stocks, Google Weather, Guardian, Twitter, Youtube for a search query with per page and current page parameters passed through GET or POST.
+It returns back JSON encoded results for various services like Feedzilla, Google Images, Guardian, Twitter, Youtube for a search query with per page and current page parameters passed through GET or POST.
 
 You could then parse to display them.
 
@@ -26,7 +26,7 @@ And JSON encoded results would be returned.
  * `q` -- Search query
  * `per_page` -- Items per page for each service. Max 50. Default 10.
  * `page` -- Page number to be requested. Default 1.
- * `<service>` -- The service to fetch results from, plain names (check filenames in `dd-includes`). 1 or do not set.
+ * `<service>` -- The service to fetch results from, plain names (check filenames in `dd-includes`). Value would be the number of results to return or do not set. If set to 1 and `per_page` is also set, then `per_page` value is used instead.
  * `all` -- Whether to fetch results from all available services. 1 or do not set.
  * `debug` -- Whether to `print_r` results instead of `json_encode` and whether to display errors or not. You may want to install a JSON viewing browser extension instead of using debug for the first reason.
  * `supported_services` - Returns a JSON encoded (or `print_r`-ed array if `debug` is on) associative array of the supported services with keys being the plain names and values being the underscored names of the services.
@@ -54,7 +54,7 @@ Contributing
 ### To add a service ###
 
  1. Add `service.[name].php` in `dd-includes` like `service.twitter.php` having a class extending `DD_Search_Service` (copy from another service class file) and make necessary changes in the file.
- 2. Add `[name]` => `[class_name]` in `$dd_services` array in `dd_config.php`
+ 2. Add `[name]` => `[class_name]` in `$dd_services` array in `dd-config.php`
  3. Done, enjoy :)
 
 ### Notes ###
