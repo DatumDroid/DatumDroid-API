@@ -159,21 +159,6 @@ class DD_Search_Service {
 	}
 
 	/**
-	 * Paging debug function
-	 *
-	 * @return int
-	 */
-	function _results() {
-		$this->max = 5;
-
-		$arr = array( 1, 2, 3, 4, 5, 6 );
-
-		array_splice( $arr, 0, ( $this->page - 1 ) * $this->rpp );
-
-		return $arr;
-	}
-
-	/**
 	 * Get the required number of results
 	 *
 	 * @param bool $reset_query Reset query?
