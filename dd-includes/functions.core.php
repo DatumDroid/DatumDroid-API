@@ -32,6 +32,8 @@ function dd_get_query() {
 function dd_get_per_page( $service = '' ) {
 	global $dd_per_page;
 
+	$service = dd_get_service( $service );
+
 	return ( empty( $_REQUEST[$service] ) || ( $_REQUEST[$service] == 1 && isset( $dd_per_page ) ) ) ? $dd_per_page : $_REQUEST[$service];
 }
 
@@ -180,7 +182,37 @@ function dd_parse_args( $args, $defaults = '' ) {
 	return $r;
 }
 
-/** Output ********************************************************************/
+/** Search & Output ***********************************************************/
+
+/**
+ * Perform the search
+ *
+ * @return array An array of results, keys are services, values are results
+ */
+function dd_search() {
+	global $dd_services;
+
+	// Results array, which would be outputted as json encoded later
+	$dd_results = array();
+
+	// Get the services in the $dd_services array and check if they are required
+	// If yes, add their results to the results array
+	foreach ( (array) $dd_services as $service => $service_name ) {
+		if ( ( !empty( $_REQUEST['all'] ) && $_REQUEST['all'] == 1 ) || isset( $_REQUEST[$service] ) ) {
+			// Require the search results fetcher file
+			dd_set_service( $service );
+			dd_load_service();
+
+			$service_class = 'DD_Service_' . $service_name;
+
+			$search = new $service_class();
+
+			$dd_results[dd_get_service()] = $search->search();
+		}
+	}
+
+	return $dd_results;
+}
 
 /**
  * Output the results.
