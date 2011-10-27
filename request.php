@@ -107,9 +107,6 @@ if ( ! isset( $dd_api_keys ) )
 // Current service
 $dd_current_service = '';
 
-// Results array, which would be outputted as json encoded later
-$dd_results = array();
-
 /** Include required files ****************************************************/
 
 // Core functions
@@ -132,23 +129,7 @@ if ( ! empty( $_REQUEST['supported_services'] ) )
 if ( ! dd_get_query() )
 	dd_output( array( 'responseDetails' => "missing query parameter 'q'", 'responseStatus' => 400 ) );
 
-// Get the services in the $dd_services array and check if they are required
-// If yes, add their results to the results array
-foreach ( (array) $dd_services as $service => $service_name ) {
-	if ( ( !empty( $_REQUEST['all'] ) && $_REQUEST['all'] == 1 ) || isset( $_REQUEST[$service] ) ) {
-		// Require the search results fetcher file
-		dd_set_service ( $service         );
-		dd_load_service( dd_get_service() );
-
-		$service_class = 'DD_Service_' . $service_name;
-
-		$search = new $service_class();
-
-		$dd_results[dd_get_service()] = $search->search();
-	}
-}
-
-dd_output( $dd_results );
+dd_output( dd_search() );
 
 // Gaut.am was here
 
