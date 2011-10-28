@@ -27,7 +27,7 @@ class DD_Service_YouTube extends DD_Search_Service {
 	 * The maximum number of results that this service can return
 	 * @var int
 	 */
-	var $max = '50';
+	var $max = 50;
 
 	/**
 	 * Build and perform the query, return the results.
@@ -45,7 +45,7 @@ class DD_Service_YouTube extends DD_Search_Service {
 
 		if ( isset( $this->page ) ) {
 			$offset = ( $this->page - 1 ) * min( $this->rpp, $this->max );
-			$request .= '&start-index=' . ( $offset < 1 ) ? 1 : $offset;
+			$request .= '&start-index=' . ( $offset < 1 ? 1 : $offset );
 		}
 
 		if ( isset( $this->lang ) ) {
