@@ -83,7 +83,7 @@ class DD_Service_Google_Images extends DD_Search_Service {
 		$request .= '&q=' . urlencode( $this->query );
 
 		if ( isset( $this->page ) ) {
-			$request .= '&start='   . ( $this->page - 1 ) * ( $this->rpp > $this->max ? $this->max : $this->rpp );
+			$request .= '&start='   . ( $this->page - 1 ) * min( $this->rpp, $this->max );
 		}
 
 		if ( isset( $this->image_type ) ) {

@@ -44,7 +44,7 @@ class DD_Service_Feedzilla extends DD_Search_Service {
 		$this->rpp      = $this->rpp * $this->page;
 		$this->page     = 1;
 
-		return parent::search();
+		return parent::search( $reset_query );
 	}
 
 	/**

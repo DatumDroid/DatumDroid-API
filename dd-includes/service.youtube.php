@@ -40,11 +40,12 @@ class DD_Service_YouTube extends DD_Search_Service {
 		$request .= '&order=published&format=1,6'; //format for mobile vids code.google.com/apis/youtube/2.0/reference.html#formatsp
 
 		if ( isset( $this->rpp ) ) {
-			$request .= '&max-results=' . $this->rpp;
+			$request .= '&max-results=' . min( $this->rpp, $this->max );
 		}
 
 		if ( isset( $this->page ) ) {
-			$request .= '&start-index=' . ( $this->page - 1 ) * ( $this->rpp > $this->max ? $this->max : $this->rpp );
+			$offset = ( $this->page - 1 ) * min( $this->rpp, $this->max );
+			$request .= '&start-index=' . ( $offset < 1 ) ? 1 : $offset;
 		}
 
 		if ( isset( $this->lang ) ) {
@@ -58,6 +59,8 @@ class DD_Service_YouTube extends DD_Search_Service {
 		if ( $reset_query ) {
 			$this->query = '';
 		}
+
+		//print_r($request);
 
 		return $this->refine( $this->objectify( $this->process( $request ) )->feed->entry );
 	}
