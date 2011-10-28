@@ -25,6 +25,9 @@ function dd_get_query() {
 /**
  * Returns the per page option
  *
+ * Min - 1
+ * Max - {@see DD_MAX_PER_PAGE}
+ *
  * @param string $service The service requested. If empty, the all are returned
  * @global int $dd_per_page Per page option
  * @return int Per page Option
@@ -34,7 +37,14 @@ function dd_get_per_page( $service = '' ) {
 
 	$service = dd_get_service( $service );
 
-	return ( empty( $_REQUEST[$service] ) || ( $_REQUEST[$service] == 1 && isset( $dd_per_page ) ) ) ? $dd_per_page : $_REQUEST[$service];
+	$per_page = ( empty( $_REQUEST[$service] ) || ( $_REQUEST[$service] == 1 && isset( $dd_per_page ) ) ) ? $dd_per_page : $_REQUEST[$service];
+
+	if ( $per_page < 1 )
+		return 1;
+	elseif ( $per_page > DD_MAX_PER_PAGE )
+		return DD_MAX_PER_PAGE;
+	else
+		return $per_page;
 }
 
 /**

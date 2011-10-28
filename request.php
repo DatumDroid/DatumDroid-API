@@ -50,16 +50,20 @@ if ( ! defined( 'DD_DIR_INC' ) )
 /* Misc */
 
 // Version
-if ( ! defined( 'DD_VER'        ) )
-	define( 'DD_VER',        '1.0'                                             );
+if ( ! defined( 'DD_VER'          ) )
+	define( 'DD_VER',          '1.0'                                             );
 
 // Name
-if ( ! defined( 'DD_NAME'       ) )
-	define( 'DD_NAME',       'DatumDroid'                                      );
+if ( ! defined( 'DD_NAME'         ) )
+	define( 'DD_NAME',         'DatumDroid'                                      );
 
 // User Agent
-if ( !defined( 'DD_USER_AGENT' ) )
-	define( 'DD_USER_AGENT', DD_NAME . 'API/' . DD_VER . ':api@datumdroid.com' );
+if ( !defined( 'DD_USER_AGENT'   ) )
+	define( 'DD_USER_AGENT',   DD_NAME . 'API/' . DD_VER . ':api@datumdroid.com' );
+
+// Max Per Page
+if ( !defined( 'DD_MAX_PER_PAGE' ) )
+	define( 'DD_MAX_PER_PAGE', 100                                               );
 
 /* URIs */
 
@@ -79,7 +83,6 @@ $dd_query = !empty( $_REQUEST['q'] ) ? trim( $_REQUEST['q'] ) : '';
 
 // Set max results
 $dd_per_page = !empty( $_REQUEST['per_page'] ) ? intval( $_REQUEST['per_page'] ) : 10;
-$dd_per_page = ( $dd_per_page < 1 || $dd_per_page > 50 ) ? 10 : $dd_per_page;
 
 // Page number
 $dd_page = !empty( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;

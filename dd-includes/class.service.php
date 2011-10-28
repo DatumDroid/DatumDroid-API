@@ -26,7 +26,7 @@ class DD_Search_Service {
 	/**
 	 * @var string
 	 */
-	var $user_agent = '';
+	var $user_agent = DD_USER_AGENT;
 
 	/**
 	 * @var string
@@ -48,7 +48,20 @@ class DD_Search_Service {
 	 * The number of results to return per page
 	 * @var int
 	 */
-	var $rpp;
+	var $rpp = 10;
+
+	/**
+	 * Offest, from where to start fetching results
+	 * @var int
+	 */
+	var $offset = 1;
+
+	/**
+	 * Number of results to pop off from the beginning of the results array
+	 * A paging fix
+	 * @var int
+	 */
+	var $pre_trim = 0;
 
 	/**
 	 * The maximum number of results that this service can return
@@ -60,7 +73,7 @@ class DD_Search_Service {
 	 * The page number to return, up to a max of roughly 1500 results
 	 * @var int
 	 */
-	var $page;
+	var $page = 1;
 
 	/**
 	 * Return tweets with a status id greater than the since value
@@ -93,11 +106,23 @@ class DD_Search_Service {
 		$r = dd_parse_args( $args, $defaults );
 		extract ( $r );
 
-		$this->rpp        = $per_page;
-		$this->page       = $page;
-		$this->lang       = $lang;
-		$this->query      = $query;
-		$this->user_agent = DD_USER_AGENT;
+		$this->rpp    = $per_page;
+		$this->page   = $page;
+		$this->lang   = $lang;
+		$this->query  = $query;
+
+		// Paging fixes
+
+		// Requested > maximum returnable
+		if ( $this->rpp > $this->max ) {
+			$this->pre_trim = ( ( $this->page - 1 ) * $this->rpp ) - ( ( $this->page - 1 ) * $this->max );
+		// Both equal
+		} elseif ( $this->rpp == $this->max ) {
+
+		// Requested < maximum returnable
+		} elseif ( $this->rpp < $this->max ) {
+
+		}
 	}
 
 	/**
@@ -165,7 +190,7 @@ class DD_Search_Service {
 	 * @return array Array of results
 	 */
 	function search( $reset_query = false ) {
-		$to_fetch = $this->page * $this->rpp;
+		$to_fetch = $this->rpp + $this->pre_trim;
 		$results  = array();
 
 		do {
@@ -186,11 +211,14 @@ class DD_Search_Service {
 			$this->page++;
 		} while ( $to_fetch > count( $results ) );
 
-		// Filter, slice and return
+		// Filter, s(p)lice and return
 		$results = array_filter( (array) $results );
 
+		if ( (int) $this->pre_trim > 0 )
+			array_splice( $results, 0, $this->pre_trim );
+
 		if ( $to_fetch < count( $results ) )
-			$results = array_slice( $results, 0, $to_fetch );
+			$results = array_slice( $results, 0, $this->rpp );
 
 		return empty( $results ) ? array( "no results found" ) : $results;
 	}

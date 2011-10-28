@@ -56,7 +56,7 @@ class DD_Service_Guardian extends DD_Search_Service {
 		$request .= '&order-by=newest';
 
 		if ( isset( $this->rpp ) ) {
-			$request .= '&page-size=' . $this->rpp;
+			$request .= '&page-size=' . ( $this->rpp > $this->max ? $this->max : $this->rpp );
 		}
 
 		if ( isset( $this->page ) ) {
@@ -71,7 +71,9 @@ class DD_Service_Guardian extends DD_Search_Service {
 			$this->query = '';
 		}
 
-		return $this->objectify( $this->process( $request ) )->response->results;
+		$results = $this->objectify( $this->process( $request ) );
+
+		return !empty( $results->response->results ) ? $results->response->results : false;
 	}
 
 }

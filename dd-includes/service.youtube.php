@@ -44,7 +44,7 @@ class DD_Service_YouTube extends DD_Search_Service {
 		}
 
 		if ( isset( $this->page ) ) {
-			$request .= '&start-index=' . ( ( $this->page - 1 ) * $this->rpp + 1 );
+			$request .= '&start-index=' . ( $this->page - 1 ) * ( $this->rpp > $this->max ? $this->max : $this->rpp );
 		}
 
 		if ( isset( $this->lang ) ) {
