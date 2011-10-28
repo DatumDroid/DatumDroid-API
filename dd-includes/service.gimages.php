@@ -102,8 +102,6 @@ class DD_Service_Google_Images extends DD_Search_Service {
 			$this->query = '';
 		}
 
-		print_r($request);
-
 		// Make the call and extract out results
 		return $this->refine( $this->process( $request ) );
 	}

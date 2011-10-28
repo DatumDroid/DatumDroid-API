@@ -51,12 +51,6 @@ class DD_Search_Service {
 	var $rpp = 10;
 
 	/**
-	 * Offest, from where to start fetching results
-	 * @var int
-	 */
-	var $offset = 1;
-
-	/**
 	 * Number of results to pop off from the beginning of the results array
 	 * A paging fix
 	 * @var int
@@ -106,10 +100,10 @@ class DD_Search_Service {
 		$r = dd_parse_args( $args, $defaults );
 		extract ( $r );
 
-		$this->rpp    = $per_page;
-		$this->page   = $page;
-		$this->lang   = $lang;
-		$this->query  = $query;
+		$this->rpp   = $per_page;
+		$this->page  = $page;
+		$this->lang  = $lang;
+		$this->query = $query;
 
 		// Paging fixes
 
