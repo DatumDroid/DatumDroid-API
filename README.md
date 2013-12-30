@@ -1,12 +1,12 @@
 DatumDroid API
 ==============
 
-DatumDroid API is basically an API written to support the [DatumDroid](http://datumdroid.com/) application.
+DatumDroid API is basically an API written to support the [DatumDroid](https://play.google.com/store/apps/details?id=com.datumdroid.app) application.
 It returns back JSON encoded results for various services like Feedzilla, Google Images, Guardian, Twitter, Youtube for a search query with per page and current page parameters passed through GET or POST.
 
 You could then parse to display them.
 
-An online version of this API exists on http://api.datumdroid.com/
+An online version of this API exists on http://datumdroid.gaut.am/
 
 Installation
 ------------
@@ -18,7 +18,7 @@ Must edits: `DD_URI` and `$dd_api_keys`.
 Usage
 -----
 
-Call the website like http://api.datumdroid.com/?q=gautam+gupta&per_page=10&page=1&all=1
+Call the website like http://datumdroid.gaut.am/?q=gautam+gupta&per_page=10&page=1&all=1
 And JSON encoded results would be returned.
 
 ### Parameters ###
